@@ -25,18 +25,7 @@ class _PersonnagePageState extends State<PersonnagePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Personnages"),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.tv), // icône pour épisodes
-            tooltip: "Voir les épisodes",
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => EpisodePage()),
-              );
-            },
-          )
-        ],
+        // suppression du bouton dans l'AppBar
       ),
       body: FutureBuilder<List<Personnage>>(
         future: futurePersonnages,

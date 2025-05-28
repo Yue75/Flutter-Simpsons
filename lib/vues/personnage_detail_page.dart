@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/personnage.dart';
+import 'episode_page.dart'; // import pour navigation
 
 class PersonnageDetailPage extends StatelessWidget {
   final Personnage personnage;
@@ -11,7 +12,18 @@ class PersonnageDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(personnage.name),
-        // bouton retour natif, pas besoin de l'ajouter manuellement
+        actions: [
+          IconButton(
+            icon: Icon(Icons.tv),
+            tooltip: 'Voir les épisodes',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => EpisodePage()),
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
