@@ -27,6 +27,10 @@ app.use("/personnages", personnageRouterGet);
 
 app.use("/episodes", episodeRouterGet);
 
+app.use("/", (req, res) => {
+  res.json({ message: "Les simpsons" });
+});
+
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
