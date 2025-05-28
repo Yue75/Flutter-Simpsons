@@ -13,6 +13,7 @@ model Saison {
     numero Int    @unique
     titre  String
     slug   String @unique
+    image  String
 
     episodes Episode[]
 }
@@ -27,7 +28,7 @@ model Episode {
     dateDiffuse String
     musiques    String[]
 
-    personnages Personnage[]
+    personnages PersonnageEpisode[]
 
     saison   Saison? @relation(fields: [saisonId], references: [id])
     saisonId String? @db.ObjectId
@@ -43,6 +44,15 @@ model Personnage {
     genre       String
     occupation  String
 
-    Episode   Episode? @relation(fields: [episodeId], references: [id])
-    episodeId String?  @db.ObjectId
+    episodes PersonnageEpisode[]
+}
+
+model PersonnageEpisode {
+    id           String     @id @default(auto()) @map("_id") @db.ObjectId
+    personnage   Personnage @relation(fields: [personnageId], references: [id])
+    personnageId String     @db.ObjectId
+    episode      Episode    @relation(fields: [episodeId], references: [id])
+    episodeId    String     @db.ObjectId
+
+    @@unique([personnageId, episodeId])
 }
