@@ -5,27 +5,23 @@ class EpisodeController {
     return [
       Episode(
         titre: "Simpsons Roasting on an Open Fire",
-        description: "Le premier épisode de la série où Homer devient Père Noël pour acheter des cadeaux.",
-        imageUrl: "https://static.wikia.nocookie.net/simpsons/images/3/3e/S1e1.png",
+        description: "Premier épisode : Homer devient Père Noël pour acheter des cadeaux.",
+        musique: "Jingle Bells, Carol of the Bells",
         personnages: ["Homer", "Marge", "Bart", "Lisa", "Maggie"],
+        critique: "Un épisode fondateur, tendre et drôle.",
+        imageUrl: "https://static.wikia.nocookie.net/simpsons/images/3/3e/S1e1.png",
         saison: 1,
         numero: 1,
       ),
       Episode(
         titre: "Bart the Genius",
-        description: "Bart est envoyé dans une école pour surdoués après avoir triché à un test de QI.",
+        description: "Bart est envoyé dans une école de surdoués après avoir triché.",
+        musique: "Beethoven - Ode à la joie",
+        personnages: ["Bart", "Lisa", "Homer"],
+        critique: "Une bonne satire sur l'éducation et l'étiquette d'intelligence.",
         imageUrl: "https://static.wikia.nocookie.net/simpsons/images/f/f3/Bart_the_Genius.png",
-        personnages: ["Bart", "Homer", "Lisa"],
         saison: 1,
         numero: 2,
-      ),
-      Episode(
-        titre: "Homer's Odyssey",
-        description: "Homer perd son emploi et devient militant pour la sécurité.",
-        imageUrl: "https://static.wikia.nocookie.net/simpsons/images/d/d3/Homer%27s_Odyssey.png",
-        personnages: ["Homer", "Marge", "Bart"],
-        saison: 1,
-        numero: 3,
       ),
     ];
   }
