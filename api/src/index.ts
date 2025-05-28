@@ -1,6 +1,11 @@
 import bodyParser from "body-parser";
 import cors from "cors";
-import express, { Express, Request, Response } from "express";
+import express, { Express } from "express";
+
+import saisonsRouterDelete from "./routes/delete/saisons";
+import saisonsRouterGet from "./routes/get/saisons";
+import saisonsRouterPost from "./routes/post/saisons";
+import saisonsRouterUpdate from "./routes/update/saisons";
 
 const app: Express = express();
 const port = process.env.PORT || 3030;
@@ -9,9 +14,11 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/", (req: Request, res: Response) => {
-  res.json({ message: "Welcome to Simpsons API" });
-});
+// Routes
+app.use("/saisons", saisonsRouterGet);
+app.use("/saisons", saisonsRouterPost);
+app.use("/saisons", saisonsRouterDelete);
+app.use("/saisons", saisonsRouterUpdate);
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
