@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
+import './vues/accueil.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Site simpsons')),
-      body: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center)),
+    return MaterialApp(
+      title: 'Wiki des Simpsons',
+      theme: ThemeData(primarySwatch: Colors.yellow),
+      home: const Accueil(),
     );
   }
 }
