@@ -16,6 +16,11 @@ class EpisodeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // URL complète de l'image avec fallback sur baseUrl si nécessaire
+    final imageUrl = episode.image.startsWith('http')
+        ? episode.image
+        : 'http://10.0.2.2:3030${episode.image}';  // adapte le port ici si besoin
+
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: Padding(
@@ -23,7 +28,21 @@ class EpisodeCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network("http://localhost:3000${episode.image}", height: 150),
+            // Affichage de l'image avec contrôle de l'URL
+            Image.network(
+              imageUrl,
+              height: 180,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Container(
+                  height: 180,
+                  color: Colors.grey[300],
+                  child: Center(child: Icon(Icons.broken_image, size: 40)),
+                );
+              },
+            ),
+
             sectionTitle(episode.title),
             Text("Diffusé le : ${episode.dateDiffuse}"),
             sectionTitle("Description"),

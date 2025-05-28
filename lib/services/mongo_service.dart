@@ -8,7 +8,7 @@ class MongoService {
   static late DbCollection personnagesCollection;
 
   static Future<void> connect() async {
-    db = await Db.create("mongodb://localhost:27017/simpsonsDB");
+    db = await Db.create("mongodb://10.0.2.2:27017/simpsonsDB");
     await db.open();
     episodesCollection = db.collection("episodes");
     personnagesCollection = db.collection("personnages");
