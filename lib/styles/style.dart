@@ -17,11 +17,7 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
     color: Colors.white,
     shadows: [
-      Shadow(
-        offset: Offset(1, 1),
-        blurRadius: 3,
-        color: Colors.black45,
-      ),
+      Shadow(offset: Offset(1, 1), blurRadius: 3, color: Colors.black45),
     ],
   );
 
@@ -29,13 +25,7 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
     fontSize: 16,
     color: AppColors.borderOrange,
-    shadows: [
-      Shadow(
-        offset: Offset(1, 1),
-        blurRadius: 2,
-        color: Colors.brown,
-      ),
-    ],
+    shadows: [Shadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.brown)],
   );
 
   static const TextStyle bodyText = TextStyle(
@@ -74,9 +64,7 @@ final ThemeData appTheme = ThemeData(
         fontWeight: FontWeight.bold,
         fontFamily: 'Comic Sans MS',
       ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
     ),
   ),
 );
