@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './vues/accueil.dart';
 import 'package:simpson_app/vues/home_screen.dart';
 import 'vues/home_screen.dart';
+import 'styles/style.dart'; // Import du thème personnalisé
 
 void main() {
   runApp(SimpsonsApp());

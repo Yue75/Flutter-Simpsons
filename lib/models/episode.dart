@@ -1,21 +1,23 @@
+import 'personnage.dart';
+
 class Episode {
-  final String titre;
+  final String title;
+  final String slug;
   final String description;
-  final String musique;
-  final List<String> personnages;
+  final String image;
   final String critique;
-  final String imageUrl;
-  final int saison;
-  final int numero;
+  final String dateDiffuse;
+  final List<String> musiques;
+  final List<Personnage> personnages;
 
   Episode({
-    required this.titre,
+    required this.title,
+    required this.slug,
     required this.description,
-    required this.musique,
-    required this.personnages,
+    required this.image,
     required this.critique,
-    required this.imageUrl,
-    required this.saison,
-    required this.numero,
+    required this.dateDiffuse,
+    required this.musiques,
+    required this.personnages,
   });
 }

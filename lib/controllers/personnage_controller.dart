@@ -1,38 +1,18 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import '../models/personnage.dart';
 
 class PersonnageController {
-  List<Personnage> getPersonnages() {
-    return [
-      Personnage(
-        nom: 'Homer Simpson',
-        imageUrl: 'https://static.wikia.nocookie.net/simpsons/images/0/02/Homer_Simpson.png',
-        statut: 'Vivant',
-        genre: 'Masculin',
-        occupation: 'Inspecteur de sécurité à la centrale nucléaire',
-        aka: 'Homer Jay Simpson',
-        cheveux: 'Chauve (2 cheveux)',
-        relations: ['Marge Simpson', 'Bart', 'Lisa', 'Maggie'],
-      ),
-      Personnage(
-        nom: 'Marge Simpson',
-        imageUrl: 'https://static.wikia.nocookie.net/simpsons/images/0/0b/Marge_Simpson.png',
-        statut: 'Vivante',
-        genre: 'Féminin',
-        occupation: 'Mère au foyer',
-        aka: 'Marjorie Bouvier Simpson',
-        cheveux: 'Bleus',
-        relations: ['Homer', 'Bart', 'Lisa', 'Maggie'],
-      ),
-      Personnage(
-        nom: 'Bart Simpson',
-        imageUrl: 'https://static.wikia.nocookie.net/simpsons/images/a/aa/Bart_Simpson.png',
-        statut: 'Vivant',
-        genre: 'Masculin',
-        occupation: 'Écolier',
-        aka: 'El Barto',
-        cheveux: 'Jaunes',
-        relations: ['Homer', 'Marge', 'Lisa', 'Maggie'],
-      ),
-    ];
+  final String baseUrl = 'http://10.0.2.2:3030';
+
+  Future<List<Personnage>> fetchPersonnages() async {
+    final response = await http.get(Uri.parse('$baseUrl/personnages'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      return data.map((p) => Personnage.fromMap(p)).toList();
+    } else {
+      throw Exception('Erreur chargement personnages : ${response.statusCode}');
+    }
   }
 }

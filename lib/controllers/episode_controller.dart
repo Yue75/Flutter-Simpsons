@@ -1,28 +1,35 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import '../models/episode.dart';
+import '../models/personnage.dart';
 
 class EpisodeController {
-  List<Episode> getEpisodes() {
-    return [
-      Episode(
-        titre: "Simpsons Roasting on an Open Fire",
-        description: "Premier épisode : Homer devient Père Noël pour acheter des cadeaux.",
-        musique: "Jingle Bells, Carol of the Bells",
-        personnages: ["Homer", "Marge", "Bart", "Lisa", "Maggie"],
-        critique: "Un épisode fondateur, tendre et drôle.",
-        imageUrl: "https://static.wikia.nocookie.net/simpsons/images/3/3e/S1e1.png",
-        saison: 1,
-        numero: 1,
-      ),
-      Episode(
-        titre: "Bart the Genius",
-        description: "Bart est envoyé dans une école de surdoués après avoir triché.",
-        musique: "Beethoven - Ode à la joie",
-        personnages: ["Bart", "Lisa", "Homer"],
-        critique: "Une bonne satire sur l'éducation et l'étiquette d'intelligence.",
-        imageUrl: "https://static.wikia.nocookie.net/simpsons/images/f/f3/Bart_the_Genius.png",
-        saison: 1,
-        numero: 2,
-      ),
-    ];
+  final String baseUrl = 'http://10.0.2.2:3030';
+
+  Future<List<Episode>> fetchEpisodes() async {
+    final response = await http.get(Uri.parse('$baseUrl/episodes'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      return data.map((jsonEpisode) {
+        final personnagesData = jsonEpisode['personnages'] ?? [];
+        final personnages = List<Personnage>.from(
+          personnagesData.map((p) => Personnage.fromMap(p)),
+        );
+
+        return Episode(
+          title: jsonEpisode['title'],
+          slug: jsonEpisode['slug'],
+          description: jsonEpisode['description'],
+          image: jsonEpisode['image'],
+          critique: jsonEpisode['critique'],
+          dateDiffuse: jsonEpisode['dateDiffuse'],
+          musiques: List<String>.from(jsonEpisode['musiques']),
+          personnages: personnages,
+        );
+      }).toList();
+    } else {
+      throw Exception('Erreur chargement épisodes : ${response.statusCode}');
+    }
   }
 }
