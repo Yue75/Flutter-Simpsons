@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'episode_page.dart';
 import 'personnage_page.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -10,10 +13,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = [
-    PersonnagePage(),
-    EpisodePage(),
-  ];
+  final List<Widget> _pages = [PersonnagePage(), EpisodePage()];
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.people),
             label: 'Personnages',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.tv),
-            label: 'Épisodes',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.tv), label: 'Épisodes'),
         ],
       ),
     );

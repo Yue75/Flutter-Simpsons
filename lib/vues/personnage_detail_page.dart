@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+
 import '../models/personnage.dart';
 import 'episode_page.dart'; // import pour navigation
 
 class PersonnageDetailPage extends StatelessWidget {
   final Personnage personnage;
 
-  const PersonnageDetailPage({Key? key, required this.personnage}) : super(key: key);
+  const PersonnageDetailPage({super.key, required this.personnage});
 
   @override
   Widget build(BuildContext context) {
@@ -34,16 +35,17 @@ class PersonnageDetailPage extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: Image.network(
-                  personnage.image.startsWith('http')
-                      ? personnage.image
-                      : "http://10.0.2.2:3000${personnage.image}",
+                  personnage.image,
                   height: 250,
                   fit: BoxFit.cover,
                 ),
               ),
             ),
             SizedBox(height: 16),
-            Text('Slug: ${personnage.slug}', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              'Slug: ${personnage.slug}',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 12),
             Text(personnage.description),
             SizedBox(height: 12),

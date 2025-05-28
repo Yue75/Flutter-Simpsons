@@ -4,6 +4,8 @@ import '../widgets/episode_card.dart';
 import '../models/episode.dart';
 
 class EpisodePage extends StatefulWidget {
+  const EpisodePage({super.key});
+
   @override
   State<EpisodePage> createState() => _EpisodePageState();
 }

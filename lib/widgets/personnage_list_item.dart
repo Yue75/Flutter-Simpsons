@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../models/personnage.dart';
 
 class PersonnageListItem extends StatelessWidget {
@@ -6,10 +7,10 @@ class PersonnageListItem extends StatelessWidget {
   final VoidCallback onTap;
 
   const PersonnageListItem({
-    Key? key,
+    super.key,
     required this.personnage,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +21,7 @@ class PersonnageListItem extends StatelessWidget {
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(8),
           child: Image.network(
-            personnage.image.startsWith('http')
-                ? personnage.image
-                : "http://10.0.2.2:3000${personnage.image}",
+            personnage.image,
             width: 60,
             height: 60,
             fit: BoxFit.cover,

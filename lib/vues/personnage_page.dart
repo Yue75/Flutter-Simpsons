@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+
 import '../controllers/personnage_controller.dart';
 import '../models/personnage.dart';
 import '../widgets/personnage_list_item.dart';
 import 'personnage_detail_page.dart';
-import 'episode_page.dart'; // import de la page episodes
 
 class PersonnagePage extends StatefulWidget {
+  const PersonnagePage({super.key});
+
   @override
   State<PersonnagePage> createState() => _PersonnagePageState();
 }
