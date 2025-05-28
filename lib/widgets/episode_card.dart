@@ -23,15 +23,22 @@ class EpisodeCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(episode.imageUrl, height: 150),
-            sectionTitle("${episode.saison}x${episode.numero} - ${episode.titre}"),
+            Image.network("http://localhost:3000${episode.image}", height: 150),
+            sectionTitle(episode.title),
+            Text("Diffusé le : ${episode.dateDiffuse}"),
+            sectionTitle("Description"),
             Text(episode.description),
-            sectionTitle("Musique"),
-            Text(episode.musique),
-            sectionTitle("Personnages"),
-            Text(episode.personnages.join(', ')),
+            sectionTitle("Musique(s)"),
+            Text(episode.musiques.join(", ")),
             sectionTitle("Critique"),
             Text(episode.critique),
+            sectionTitle("Personnages"),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: episode.personnages
+                  .map((p) => Text("- ${p.name} (${p.occupation})"))
+                  .toList(),
+            ),
           ],
         ),
       ),

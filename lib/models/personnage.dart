@@ -1,21 +1,28 @@
 class Personnage {
-  final String nom;
-  final String imageUrl;
-  final String statut;
+  final String name;
+  final String image;
+  final String description;
+  final String cheveux;
   final String genre;
   final String occupation;
-  final String aka;
-  final String cheveux;
-  final List<String> relations;
 
   Personnage({
-    required this.nom,
-    required this.imageUrl,
-    required this.statut,
+    required this.name,
+    required this.image,
+    required this.description,
+    required this.cheveux,
     required this.genre,
     required this.occupation,
-    required this.aka,
-    required this.cheveux,
-    required this.relations,
   });
+
+  factory Personnage.fromMap(Map<String, dynamic> map) {
+    return Personnage(
+      name: map['name'],
+      image: map['image'],
+      description: map['description'],
+      cheveux: map['cheveux'],
+      genre: map['genre'],
+      occupation: map['occupation'],
+    );
+  }
 }
