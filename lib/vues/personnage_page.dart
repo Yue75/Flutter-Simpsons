@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../controllers/personnage_controller.dart';
-import '../widgets/personnage_cards.dart';
 import '../models/personnage.dart';
+import '../widgets/personnage_list_item.dart';
+import 'personnage_detail_page.dart';
+import 'episode_page.dart'; // import de la page episodes
 
 class PersonnagePage extends StatefulWidget {
   @override
@@ -15,14 +17,27 @@ class _PersonnagePageState extends State<PersonnagePage> {
   @override
   void initState() {
     super.initState();
-    // On appelle directement la méthode http dans le controller
     futurePersonnages = personnageController.fetchPersonnages();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Personnages")),
+      appBar: AppBar(
+        title: Text("Personnages"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.tv), // icône pour épisodes
+            tooltip: "Voir les épisodes",
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => EpisodePage()),
+              );
+            },
+          )
+        ],
+      ),
       body: FutureBuilder<List<Personnage>>(
         future: futurePersonnages,
         builder: (context, snapshot) {
@@ -37,7 +52,18 @@ class _PersonnagePageState extends State<PersonnagePage> {
           return ListView.builder(
             itemCount: personnages.length,
             itemBuilder: (context, index) {
-              return PersonnageCard(personnage: personnages[index]);
+              final p = personnages[index];
+              return PersonnageListItem(
+                personnage: p,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => PersonnageDetailPage(personnage: p),
+                    ),
+                  );
+                },
+              );
             },
           );
         },
