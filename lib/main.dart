@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 import './vues/accueil.dart';
 
 void main() {
-  runApp(SimpsonsApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -17,4 +18,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
