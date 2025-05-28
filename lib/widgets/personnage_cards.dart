@@ -13,18 +13,22 @@ class PersonnageCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(personnage.imageUrl, height: 150),
+            Image.network(
+              personnage.image.startsWith("http")
+                  ? personnage.image
+                  : "http://localhost:3000${personnage.image}",
+              height: 150,
+              fit: BoxFit.cover,
+            ),
             SizedBox(height: 8),
-            Text(personnage.nom, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Text(personnage.name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Text(personnage.description),
             SizedBox(height: 8),
-            Text("Statut : ${personnage.statut}"),
-            Text("Sexe : ${personnage.genre}"),
-            Text("Occupation : ${personnage.occupation}"),
-            Text("AKA : ${personnage.aka}"),
+            Text("Genre : ${personnage.genre}"),
             Text("Cheveux : ${personnage.cheveux}"),
-            SizedBox(height: 4),
-            Text("Relations : ${personnage.relations.join(', ')}"),
+            Text("Occupation : ${personnage.occupation}"),
           ],
         ),
       ),
