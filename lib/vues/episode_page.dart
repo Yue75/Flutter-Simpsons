@@ -15,7 +15,8 @@ class _EpisodePageState extends State<EpisodePage> {
   @override
   void initState() {
     super.initState();
-    futureEpisodes = episodeController.fetchEpisodesFromMongo();
+    // On appelle directement la méthode http dans le controller
+    futureEpisodes = episodeController.fetchEpisodes();
   }
 
   @override

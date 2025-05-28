@@ -1,12 +1,35 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import '../models/episode.dart';
-import '../services/mongo_service.dart';
+import '../models/personnage.dart';
 
 class EpisodeController {
-  Future<List<Episode>> fetchEpisodesFromMongo() async {
-    await MongoService.connect();
-    final episodes = await MongoService.getEpisodesWithPersonnages();
-    await MongoService.close();
-    return episodes;
+  final String baseUrl = 'http://10.0.2.2:3030';
+
+  Future<List<Episode>> fetchEpisodes() async {
+    final response = await http.get(Uri.parse('$baseUrl/episodes'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      return data.map((jsonEpisode) {
+        final personnagesData = jsonEpisode['personnages'] ?? [];
+        final personnages = List<Personnage>.from(
+          personnagesData.map((p) => Personnage.fromMap(p)),
+        );
+
+        return Episode(
+          title: jsonEpisode['title'],
+          slug: jsonEpisode['slug'],
+          description: jsonEpisode['description'],
+          image: jsonEpisode['image'],
+          critique: jsonEpisode['critique'],
+          dateDiffuse: jsonEpisode['dateDiffuse'],
+          musiques: List<String>.from(jsonEpisode['musiques']),
+          personnages: personnages,
+        );
+      }).toList();
+    } else {
+      throw Exception('Erreur chargement épisodes : ${response.statusCode}');
+    }
   }
 }
-

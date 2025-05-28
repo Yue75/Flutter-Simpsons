@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simpson_app/widgets/personnage_cards.dart';
 import '../controllers/personnage_controller.dart';
 import '../widgets/personnage_cards.dart';
 import '../models/personnage.dart';
@@ -16,7 +15,8 @@ class _PersonnagePageState extends State<PersonnagePage> {
   @override
   void initState() {
     super.initState();
-    futurePersonnages = personnageController.fetchPersonnagesFromMongo();
+    // On appelle directement la méthode http dans le controller
+    futurePersonnages = personnageController.fetchPersonnages();
   }
 
   @override
@@ -45,4 +45,3 @@ class _PersonnagePageState extends State<PersonnagePage> {
     );
   }
 }
-
