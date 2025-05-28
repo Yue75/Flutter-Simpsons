@@ -6,6 +6,14 @@ class EpisodeCard extends StatelessWidget {
 
   const EpisodeCard({Key? key, required this.episode}) : super(key: key);
 
+  Widget sectionTitle(String label) => Padding(
+        padding: const EdgeInsets.only(top: 10.0, bottom: 4),
+        child: Text(
+          label,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -16,14 +24,14 @@ class EpisodeCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.network(episode.imageUrl, height: 150),
-            SizedBox(height: 8),
-            Text("${episode.saison}x${episode.numero} - ${episode.titre}",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            SizedBox(height: 6),
+            sectionTitle("${episode.saison}x${episode.numero} - ${episode.titre}"),
             Text(episode.description),
-            SizedBox(height: 6),
-            Text("Personnages : ${episode.personnages.join(', ')}",
-                style: TextStyle(fontStyle: FontStyle.italic)),
+            sectionTitle("Musique"),
+            Text(episode.musique),
+            sectionTitle("Personnages"),
+            Text(episode.personnages.join(', ')),
+            sectionTitle("Critique"),
+            Text(episode.critique),
           ],
         ),
       ),
