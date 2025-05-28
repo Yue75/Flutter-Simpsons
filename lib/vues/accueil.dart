@@ -10,6 +10,9 @@ class Accueil extends StatefulWidget {
 class _AccueilState extends State<Accueil> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(title: const Text('Site simpsons')),
+      body: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center)),
+    );
   }
 }
