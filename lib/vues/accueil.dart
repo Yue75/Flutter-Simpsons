@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class Accueil extends StatefulWidget {
   const Accueil({super.key});
@@ -8,98 +10,184 @@ class Accueil extends StatefulWidget {
 }
 
 class _AccueilState extends State<Accueil> {
-  final List<String> protagonistes = [
-    'Homer',
-    'Marge',
-    'Bart',
-    'Lisa',
-    'Maggie',
+  List<String> protagonistes = [
+    'Homer Simpson',
+    'Marge Simpson',
+    'Bart Simpson',
+    'Lisa Simpson',
+    'Maggie Simpson',
   ];
-  final List<String> saisons = ['Saison 1', 'Saison 2', 'Saison 3'];
-  final List<String> actualites = [
-    'Nouvel épisode diffusé hier soir !',
-    'Les Simpsons fêtent leur 30e anniversaire.',
-    'Un documentaire sur les créateurs de la série sort bientôt.',
+  List<Map<String, dynamic>> saisons = [];
+  List<String> actualites = [
+    'La saison 34 est en cours de diffusion.',
+    'Un nouvel épisode spécial est prévu pour Noël.',
+    'Le film des Simpsons a été annoncé pour 2024.',
+    'Un crossover avec Futurama est en préparation.',
+    'Les Simpsons ont été renouvelés pour deux saisons supplémentaires.',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    try {
+      final saisonsResponse = await http.get(
+        Uri.parse('http://localhost:3030/saisons'),
+      );
+
+      if (saisonsResponse.statusCode == 200) {
+        final List<dynamic> jsonData = json.decode(saisonsResponse.body);
+        setState(() {
+          saisons = jsonData
+              .map((item) => item as Map<String, dynamic>)
+              .toList();
+        });
+      } else {
+        throw Exception('Erreur lors de la récupération des données');
+      }
+    } catch (e) {
+      print('Erreur : $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Wiki des Simpsons')),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Section Intro
-              const Text(
-                'Introduction',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Les Simpsons est une série télévisée animée américaine créée par Matt Groening. '
-                'Elle raconte la vie quotidienne de la famille Simpson dans la ville fictive de Springfield.',
-              ),
-              const SizedBox(height: 16),
-
-              // Section Protagonistes
-              const Text(
-                'Protagonistes',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              Column(
-                children: protagonistes
-                    .map(
-                      (protagoniste) => ListTile(
-                        leading: const Icon(Icons.person),
-                        title: Text(protagoniste),
+      body: saisons.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Section Intro
+                    const Text(
+                      'Introduction',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
-                    )
-                    .toList(),
-              ),
-              const SizedBox(height: 16),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Les Simpsons est une série télévisée animée américaine créée par Matt Groening. '
+                      'Elle raconte la vie quotidienne de la famille Simpson dans la ville fictive de Springfield.',
+                    ),
+                    const SizedBox(height: 16),
 
-              // Section Saisons
-              const Text(
-                'Saisons',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              Column(
-                children: saisons
-                    .map(
-                      (saison) => ListTile(
-                        leading: const Icon(Icons.tv),
-                        title: Text(saison),
+                    // Section Protagonistes
+                    const Text(
+                      'Protagonistes',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
-                    )
-                    .toList(),
-              ),
-              const SizedBox(height: 16),
+                    ),
+                    const SizedBox(height: 8),
+                    Column(
+                      children: protagonistes
+                          .map(
+                            (protagoniste) => ListTile(
+                              leading: const Icon(Icons.person),
+                              title: Text(protagoniste),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                    const SizedBox(height: 16),
 
-              // Section Actualités
-              const Text(
-                'Actualités',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              Column(
-                children: actualites
-                    .map(
-                      (news) => ListTile(
-                        leading: const Icon(Icons.article),
-                        title: Text(news),
+                    // Section Saisons
+                    const Text(
+                      'Saisons',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
-                    )
-                    .toList(),
+                    ),
+                    const SizedBox(height: 8),
+                    Column(
+                      children: saisons
+                          .map(
+                            (saison) => ListTile(
+                              leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image.network(
+                                  saison['image'],
+                                  width: 50,
+                                  height: 50,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return const Icon(
+                                      Icons.broken_image,
+                                      size: 50,
+                                    );
+                                  },
+                                ),
+                              ),
+                              title: Text(saison['titre']),
+                              subtitle: Text('Numéro: ${saison['numero']}'),
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: Text(saison['titre']),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Image.network(
+                                          saison['image'],
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                                return const Icon(
+                                                  Icons.broken_image,
+                                                  size: 100,
+                                                );
+                                              },
+                                        ),
+                                        const SizedBox(height: 16),
+                                        Text(
+                                          'Slug: ${saison['slug']}\n'
+                                          'ID: ${saison['id']}\n'
+                                          'Nombre d\'épisodes: ${saison['episodes'].length}',
+                                        ),
+                                      ],
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text('Fermer'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          )
+                          .toList(),
+                    ),
+                    const SizedBox(height: 16),
+                    Column(
+                      children: actualites
+                          .map(
+                            (actualite) => ListTile(
+                              leading: const Icon(Icons.article),
+                              title: Text(actualite),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }
