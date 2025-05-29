@@ -38,6 +38,8 @@ class _AccueilState extends State<Accueil> {
         Uri.parse('http://localhost:3030/saisons'),
       );
 
+      print(saisonsResponse.body);
+
       if (saisonsResponse.statusCode == 200) {
         final List<dynamic> jsonData = json.decode(saisonsResponse.body);
         setState(() {
