@@ -55,9 +55,9 @@ class _HomeViewState extends State<HomeView> {
   Future<void> fetchData() async {
     try {
       final saisonsResponse = await http.get(
-        Uri.parse('http://localhost:3030/saisons'),
+        Uri.parse('http://10.0.2.2:3030/saisons'),
       );
-
+print (saisonsResponse.body);
       if (saisonsResponse.statusCode == 200) {
         final List<dynamic> jsonData = json.decode(saisonsResponse.body);
         setState(() {
@@ -228,10 +228,9 @@ class _HomeViewState extends State<HomeView> {
                                 children: [
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(12.0),
-                                    child: Image.network(
+                                    child:Image(image: AssetImage( 
                                       saison['image'] ?? '',
-                                      width: 100,
-                                      height: 100,
+                                       ),height: 100,
                                       fit: BoxFit.cover,
                                       loadingBuilder:
                                           (context, child, loadingProgress) {
@@ -247,7 +246,7 @@ class _HomeViewState extends State<HomeView> {
                                           ),
                                         );
                                       },
-                                    ),
+                                   ) 
                                   ),
                                   const SizedBox(height: 8),
                                   Text(
