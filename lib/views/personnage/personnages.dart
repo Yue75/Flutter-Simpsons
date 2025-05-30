@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../../components/personnage_card.dart';
-import '../../models/personnage.dart';
+import '../../models/personnage.model.dart';
 
 class Personnages extends StatefulWidget {
   const Personnages({super.key});

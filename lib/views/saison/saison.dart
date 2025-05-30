@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../models/season.dart';
+import '../../models/saison.model.dart';
 
 class Saison extends StatelessWidget {
   final Season season;

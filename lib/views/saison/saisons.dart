@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:simpsons/views/saison/saison.dart';
 
 import '../../components/saison_card.dart';
-import '../../models/season.dart';
+import '../../models/saison.model.dart';
 
 class Saisons extends StatefulWidget {
   const Saisons({super.key});
