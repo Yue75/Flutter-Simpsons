@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:simpsons/views/saison/saison.dart';
 
-import '../../components/saison_card.dart';
+import '../../components/saison-card.dart';
 import '../../models/saison.model.dart';
 
 class Saisons extends StatefulWidget {

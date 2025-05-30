@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-/**
- * Widget qui affiche une carte pour un personnage des Simpsons
- * Permet de naviguer vers la page détaillée du personnage au clic
- */
 class PersonnageCard extends StatelessWidget {
   final String id;
   final String name;
