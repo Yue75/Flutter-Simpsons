@@ -2,19 +2,19 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:simpsons/views/saison/saison.dart';
 
-import '../components/saison_card.dart';
-import '../models/season.dart';
-import 'season_detail_view.dart';
+import '../../components/saison_card.dart';
+import '../../models/season.dart';
 
-class SeasonsView extends StatefulWidget {
-  const SeasonsView({super.key});
+class Saisons extends StatefulWidget {
+  const Saisons({super.key});
 
   @override
-  State<SeasonsView> createState() => _SeasonsViewState();
+  State<Saisons> createState() => _SaisonsState();
 }
 
-class _SeasonsViewState extends State<SeasonsView> {
+class _SaisonsState extends State<Saisons> {
   List<Season> _seasons = [];
   bool _isLoading = true;
   String? _error;
@@ -54,7 +54,7 @@ class _SeasonsViewState extends State<SeasonsView> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SeasonDetailView(season: season),
+        builder: (context) => Saison(season: season),
       ),
     );
   }

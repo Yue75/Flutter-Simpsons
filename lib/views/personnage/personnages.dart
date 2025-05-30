@@ -3,18 +3,17 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../components/personnage_card.dart';
-import '../models/personnage.dart';
-import 'personnage_view.dart';
+import '../../components/personnage_card.dart';
+import '../../models/personnage.dart';
 
-class CharactersView extends StatefulWidget {
-  const CharactersView({super.key});
+class Personnages extends StatefulWidget {
+  const Personnages({super.key});
 
   @override
-  State<CharactersView> createState() => _CharactersViewState();
+  State<Personnages> createState() => _PersonnagesState();
 }
 
-class _CharactersViewState extends State<CharactersView> {
+class _PersonnagesState extends State<Personnages> {
   List<Personnage> personnages = [];
   bool isLoading = true;
   String? error;
@@ -52,19 +51,20 @@ class _CharactersViewState extends State<CharactersView> {
     }
   }
 
-  void _navigateToPersonnageDetail(Personnage personnage) {
+  void _navigateToPersonnage(Personnage personnage) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PersonnageView(
+        builder: (context) => Personnage(
           id: personnage.id,
           name: personnage.name,
-          imageUrl: personnage.image,
+          slug: personnage.slug,
+          image: personnage.image,
           description: personnage.description,
           cheveux: personnage.cheveux,
           genre: personnage.genre,
           occupation: personnage.occupation,
-        ),
+        ) as Widget,
       ),
     );
   }
@@ -91,7 +91,7 @@ class _CharactersViewState extends State<CharactersView> {
                   itemBuilder: (context, index) {
                     final personnage = personnages[index];
                     return GestureDetector(
-                      onTap: () => _navigateToPersonnageDetail(personnage),
+                      onTap: () => _navigateToPersonnage(personnage),
                       child: PersonnageCard(
                         id: personnage.id,
                         name: personnage.name,

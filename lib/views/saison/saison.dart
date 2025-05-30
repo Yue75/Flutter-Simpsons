@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../models/season.dart';
+import '../../models/season.dart';
 
-/**
- * Page de détail d'une saison des Simpsons
- * Affiche les informations de la saison et la liste des épisodes
- */
-class SeasonDetailView extends StatelessWidget {
+class Saison extends StatelessWidget {
   final Season season;
 
-  const SeasonDetailView({
+  const Saison({
     super.key,
     required this.season,
   });

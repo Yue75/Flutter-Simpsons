@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
-/**
- * Page de détail d'un personnage des Simpsons
- * Affiche les informations détaillées d'un personnage spécifique
- */
-class PersonnageView extends StatelessWidget {
+class Personnage extends StatelessWidget {
   final String id;
   final String name;
   final String imageUrl;
@@ -13,7 +9,7 @@ class PersonnageView extends StatelessWidget {
   final String genre;
   final String occupation;
 
-  const PersonnageView({
+  const Personnage({
     super.key,
     required this.id,
     required this.name,

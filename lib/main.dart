@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'views/characters_view.dart';
-import 'views/home_view.dart';
-import 'views/seasons_view.dart';
+import 'views/home.dart';
+import 'views/personnage/personnages.dart';
+import 'views/saison/saisons.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,8 +20,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         appBarTheme: const AppBarTheme(
           backgroundColor: Color(0xFFFFD700),
-          foregroundColor:
-              Colors.black, // Texte en noir pour meilleur contraste
+          foregroundColor: Colors.black,
           centerTitle: true,
           elevation: 0,
         ),
@@ -42,9 +41,9 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    const HomeView(),
-    const CharactersView(),
-    const SeasonsView(),
+    const Home(),
+    const Personnages(),
+    const Saisons(),
   ];
 
   void _onItemTapped(int index) {

@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class HomeView extends StatefulWidget {
-  const HomeView({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  State<Home> createState() => _HomeState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _HomeState extends State<Home> {
   List<Map<String, String>> protagonistes = [
     {
       'nom': 'Homer Simpson',
