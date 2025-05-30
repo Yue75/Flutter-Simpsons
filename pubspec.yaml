@@ -1,28 +1,31 @@
-name: simpson_app
+name: flutter_simpsons
 description: "A new Flutter project."
 
-publish_to: 'none' # Prevent accidental publishing
-
+publish_to: "none" # Prevent accidental publishing
 
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.8.0
+  sdk: ">=3.2.3 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  mongo_dart: ^0.10.0
-  cupertino_icons: ^1.0.8
-  http: ^1.4.0
+  cupertino_icons: ^1.0.2
+  http: ^1.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^2.0.0
 
 flutter:
   uses-material-design: true
+
+  # Configuration des assets
+  assets:
+    - assets/images/
+    - assets/icons/
 
   # Uncomment and add assets if needed
   # assets:

@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
+
 import '../models/episode.dart';
 import '../models/personnage.dart';
 
 class EpisodeController {
-  final String baseUrl = 'http://10.0.2.2:3030';
+  final String baseUrl = 'http://localhost:3030';
 
   Future<List<Episode>> fetchEpisodes() async {
     try {

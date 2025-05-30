@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import './vues/accueil.dart';
+
+import 'vues/main_navigation.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -12,9 +13,26 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Wiki des Simpsons',
-      theme: ThemeData(primarySwatch: Colors.yellow),
-      home: const Accueil(),
+      theme: ThemeData(
+        primarySwatch: Colors.yellow,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        textTheme: const TextTheme(
+          displayLarge: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
+          ),
+          bodyLarge: TextStyle(
+            fontSize: 16,
+            color: Colors.black87,
+          ),
+          bodyMedium: TextStyle(
+            fontSize: 14,
+            color: Colors.black87,
+          ),
+        ),
+      ),
+      home: const MainNavigation(),
     );
   }
 }
-
