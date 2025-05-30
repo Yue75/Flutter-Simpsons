@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Personnage extends StatelessWidget {
+class PersonnageDetailView extends StatelessWidget {
   final String id;
   final String name;
   final String imageUrl;
@@ -9,7 +9,7 @@ class Personnage extends StatelessWidget {
   final String genre;
   final String occupation;
 
-  const Personnage({
+  const PersonnageDetailView({
     super.key,
     required this.id,
     required this.name,

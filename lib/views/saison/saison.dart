@@ -85,15 +85,12 @@ class Saison extends StatelessWidget {
                             ),
                           ),
                           subtitle: Text(
-                            'Épisode ${index + 1}',
+                            episode.description,
                             style: TextStyle(
                               color: Colors.grey[600],
                             ),
                           ),
                           trailing: const Icon(Icons.play_circle_outline),
-                          onTap: () {
-                            // TODO: Navigation vers la page de détail de l'épisode
-                          },
                         ),
                       );
                     },
