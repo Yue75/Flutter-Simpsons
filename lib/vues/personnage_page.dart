@@ -3,12 +3,8 @@ import '../controllers/personnage_controller.dart';
 import '../models/personnage.dart';
 import '../widgets/personnage_list_item.dart';
 import 'personnage_detail_page.dart';
-import 'episode_page.dart'; // import de la page episodes
 
-class PersonnagePage extends StatefulWidget {
-  @override
-  State<PersonnagePage> createState() => _PersonnagePageState();
-}
+import 'episode_page.dart'; 
 
 class _PersonnagePageState extends State<PersonnagePage> {
   final personnageController = PersonnageController();
@@ -25,7 +21,7 @@ class _PersonnagePageState extends State<PersonnagePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Personnages"),
-        // suppression du bouton dans l'AppBar
+  
       ),
       body: FutureBuilder<List<Personnage>>(
         future: futurePersonnages,

@@ -13,6 +13,7 @@ model Saison {
     numero Int    @unique
     titre  String
     slug   String @unique
+    image  String
 
     episodes Episode[]
 }

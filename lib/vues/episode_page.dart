@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+
 import '../controllers/episode_controller.dart';
-import '../widgets/episode_card.dart';
 import '../models/episode.dart';
+import '../widgets/episode_card.dart';
 
 class EpisodePage extends StatefulWidget {
+  const EpisodePage({super.key});
+
   @override
   State<EpisodePage> createState() => _EpisodePageState();
 }

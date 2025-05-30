@@ -6,10 +6,10 @@ class PersonnageListItem extends StatelessWidget {
   final VoidCallback onTap;
 
   const PersonnageListItem({
-    Key? key,
+    super.key,
     required this.personnage,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

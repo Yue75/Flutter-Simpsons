@@ -4,15 +4,15 @@ import '../models/episode.dart';
 class EpisodeCard extends StatelessWidget {
   final Episode episode;
 
-  const EpisodeCard({Key? key, required this.episode}) : super(key: key);
+  const EpisodeCard({super.key, required this.episode});
 
   Widget sectionTitle(String label) => Padding(
-        padding: const EdgeInsets.only(top: 10.0, bottom: 4),
-        child: Text(
-          label,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        ),
-      );
+    padding: const EdgeInsets.only(top: 10.0, bottom: 4),
+    child: Text(
+      label,
+      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,6 @@ class EpisodeCard extends StatelessWidget {
     final imageUrl = episode.image.startsWith('http')
         ? episode.image
         : 'http://10.0.2.2:3030${episode.image}';  // adapte le port ici si besoin
-
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: Padding(

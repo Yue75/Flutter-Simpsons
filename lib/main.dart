@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:simpson_app/vues/home_screen.dart';
-import 'vues/home_screen.dart';
-import 'styles/style.dart';  // Import du thème personnalisé
+import './vues/accueil.dart';
 
 void main() {
-  runApp(SimpsonsApp());
+  runApp(MyApp());
 }
 
-class SimpsonsApp extends StatelessWidget {
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Simpsons Wiki',
-      debugShowCheckedModeBanner: false,
-      theme: appTheme,  // Utilisation de ton thème custom depuis style.dart
-      home: HomeScreen(),
+      title: 'Wiki des Simpsons',
+      theme: ThemeData(primarySwatch: Colors.yellow),
+      home: const Accueil(),
     );
   }
 }
-
 

@@ -29,17 +29,8 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
     fontSize: 16,
     color: AppColors.borderOrange,
-    shadows: [
-      Shadow(
-        offset: Offset(1, 1),
-        blurRadius: 2,
-        color: Colors.brown,
-      ),
-    ],
+    shadows: [Shadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.brown)],
   );
-
-  static const TextStyle bodyText = TextStyle(
-    fontFamily: 'Arial',
     color: AppColors.textBrownLight,
   );
 
@@ -74,9 +65,12 @@ final ThemeData appTheme = ThemeData(
         fontWeight: FontWeight.bold,
         fontFamily: 'Comic Sans MS',
       ),
+
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
+
+
     ),
   ),
 );
