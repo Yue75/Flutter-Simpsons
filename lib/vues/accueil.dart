@@ -10,12 +10,32 @@ class Accueil extends StatefulWidget {
 }
 
 class _AccueilState extends State<Accueil> {
-  List<String> protagonistes = [
-    'Homer Simpson',
-    'Marge Simpson',
-    'Bart Simpson',
-    'Lisa Simpson',
-    'Maggie Simpson',
+  List<Map<String, String>> protagonistes = [
+    {
+      'nom': 'Homer Simpson',
+      'image':
+          'https://upload.wikimedia.org/wikipedia/en/0/02/Homer_Simpson_2006.png',
+    },
+    {
+      'nom': 'Marge Simpson',
+      'image':
+          'https://upload.wikimedia.org/wikipedia/en/0/0b/Marge_Simpson.png',
+    },
+    {
+      'nom': 'Bart Simpson',
+      'image':
+          'https://upload.wikimedia.org/wikipedia/en/a/aa/Bart_Simpson_200px.png',
+    },
+    {
+      'nom': 'Lisa Simpson',
+      'image':
+          'https://upload.wikimedia.org/wikipedia/en/e/ec/Lisa_Simpson.png',
+    },
+    {
+      'nom': 'Maggie Simpson',
+      'image':
+          'https://upload.wikimedia.org/wikipedia/en/9/9d/Maggie_Simpson.png',
+    },
   ];
   List<Map<String, dynamic>> saisons = [];
   List<String> actualites = [
@@ -37,8 +57,6 @@ class _AccueilState extends State<Accueil> {
       final saisonsResponse = await http.get(
         Uri.parse('http://localhost:3030/saisons'),
       );
-
-      print(saisonsResponse.body);
 
       if (saisonsResponse.statusCode == 200) {
         final List<dynamic> jsonData = json.decode(saisonsResponse.body);
@@ -92,14 +110,25 @@ class _AccueilState extends State<Accueil> {
                     ),
                     const SizedBox(height: 8),
                     Column(
-                      children: protagonistes
-                          .map(
-                            (protagoniste) => ListTile(
-                              leading: const Icon(Icons.person),
-                              title: Text(protagoniste),
+                      children: protagonistes.map((protagoniste) {
+                        return ListTile(
+                          leading: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.network(
+                              protagoniste['image'] ?? '',
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Icon(Icons.broken_image, size: 50);
+                              },
                             ),
-                          )
-                          .toList(),
+                          ),
+                          title: Text(
+                            protagoniste['nom'] ?? 'Nom indisponible',
+                          ),
+                        );
+                      }).toList(),
                     ),
                     const SizedBox(height: 16),
 
@@ -112,39 +141,27 @@ class _AccueilState extends State<Accueil> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Column(
-                      children: saisons
-                          .map(
-                            (saison) => ListTile(
-                              leading: ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: Image.network(
-                                  saison['image'],
-                                  width: 50,
-                                  height: 50,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return const Icon(
-                                      Icons.broken_image,
-                                      size: 50,
-                                    );
-                                  },
-                                ),
-                              ),
-                              title: Text(saison['titre']),
-                              subtitle: Text('Numéro: ${saison['numero']}'),
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    title: Text(saison['titre']),
-                                    content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Image.network(
-                                          saison['image'],
-                                          width: 100,
-                                          height: 100,
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: saisons.map((saison) {
+                          return GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text(saison['titre']),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                          8.0,
+                                        ),
+                                        child: Image.asset(
+                                          'assets/saisons/saison-${saison['numero']}.webp',
+                                          width: 150,
+                                          height: 150,
                                           fit: BoxFit.cover,
                                           errorBuilder:
                                               (context, error, stackTrace) {
@@ -154,27 +171,66 @@ class _AccueilState extends State<Accueil> {
                                                 );
                                               },
                                         ),
-                                        const SizedBox(height: 16),
-                                        Text(
-                                          'Slug: ${saison['slug']}\n'
-                                          'ID: ${saison['id']}\n'
-                                          'Nombre d\'épisodes: ${saison['episodes'].length}',
-                                        ),
-                                      ],
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: const Text('Fermer'),
+                                      ),
+                                      const SizedBox(height: 16),
+                                      Text(
+                                        'Slug: ${saison['slug']}\n'
+                                        'ID: ${saison['id']}\n'
+                                        'Nombre d\'épisodes: ${saison['episodes'].length}',
                                       ),
                                     ],
                                   ),
-                                );
-                              },
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('Fermer'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            child: Container(
+                              width: 140,
+                              margin: const EdgeInsets.symmetric(horizontal: 8),
+                              child: Column(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                    child: Image.asset(
+                                      'assets/saisons/saison-${saison['numero']}.webp',
+                                      width: 120,
+                                      height: 120,
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                            return const Icon(
+                                              Icons.broken_image,
+                                              size: 120,
+                                            );
+                                          },
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    saison['titre'] ?? '',
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Saison ${saison['numero']}',
+                                    style: const TextStyle(color: Colors.grey),
+                                  ),
+                                ],
+                              ),
                             ),
-                          )
-                          .toList(),
+                          );
+                        }).toList(),
+                      ),
                     ),
+
+                    // Actualités
                     const SizedBox(height: 16),
                     Column(
                       children: actualites

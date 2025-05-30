@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import '../models/personnage.dart';
-import 'episode_page.dart'; // import pour navigation
+import 'episode_page.dart';
 
 class PersonnageDetailPage extends StatelessWidget {
   final Personnage personnage;
 
-  const PersonnageDetailPage({Key? key, required this.personnage}) : super(key: key);
+  const PersonnageDetailPage({Key? key, required this.personnage})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,10 @@ class PersonnageDetailPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 16),
-            Text('Slug: ${personnage.slug}', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              'Slug: ${personnage.slug}',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 12),
             Text(personnage.description),
             SizedBox(height: 12),
