@@ -28,7 +28,7 @@ class _PersonnagesState extends State<Personnages> {
   Future<void> fetchPersonnages() async {
     try {
       final response =
-          await http.get(Uri.parse('http://localhost:3030/personnages'));
+          await http.get(Uri.parse('http://10.0.2.2:3030/personnages'));
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);

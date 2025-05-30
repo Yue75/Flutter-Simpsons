@@ -56,7 +56,7 @@ class _HomeState extends State<Home> {
   Future<void> fetchData() async {
     try {
       final saisonsResponse = await http.get(
-        Uri.parse('http://localhost:3030/saisons'),
+        Uri.parse('http://10.0.2.2:3030/saisons'),
       );
 
       if (saisonsResponse.statusCode == 200) {
