@@ -1,0 +1,58 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
+}
+
+// Modèle pour les saisons
+model Saison {
+    id     String @id @default(auto()) @map("_id") @db.ObjectId
+    numero Int    @unique
+    titre  String
+    slug   String @unique
+    image  String
+
+    episodes Episode[]
+}
+
+model Episode {
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    title       String
+    slug        String   @unique
+    description String
+    image       String
+    critique    String
+    dateDiffuse String
+    musiques    String[]
+
+    personnages PersonnageEpisode[]
+
+    saison   Saison? @relation(fields: [saisonId], references: [id])
+    saisonId String? @db.ObjectId
+}
+
+model Personnage {
+    id          String @id @default(auto()) @map("_id") @db.ObjectId
+    name        String
+    slug        String @unique
+    image       String
+    description String
+    cheveux     String
+    genre       String
+    occupation  String
+
+    episodes PersonnageEpisode[]
+}
+
+model PersonnageEpisode {
+    id           String     @id @default(auto()) @map("_id") @db.ObjectId
+    personnage   Personnage @relation(fields: [personnageId], references: [id])
+    personnageId String     @db.ObjectId
+    episode      Episode    @relation(fields: [episodeId], references: [id])
+    episodeId    String     @db.ObjectId
+
+    @@unique([personnageId, episodeId])
+}

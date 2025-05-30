@@ -1,4 +1,4 @@
-package com.example.simpson_app
+package com.example.simpsons
 
 import io.flutter.embedding.android.FlutterActivity
 
