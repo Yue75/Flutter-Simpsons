@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'vues/main_navigation.dart';
+import 'views/characters_view.dart';
+import 'views/home_view.dart';
+import 'views/seasons_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,27 +14,61 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Wiki des Simpsons',
+      title: 'Simpsons Wiki',
       theme: ThemeData(
-        primarySwatch: Colors.yellow,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        textTheme: const TextTheme(
-          displayLarge: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: Colors.black87,
-          ),
-          bodyLarge: TextStyle(
-            fontSize: 16,
-            color: Colors.black87,
-          ),
-          bodyMedium: TextStyle(
-            fontSize: 14,
-            color: Colors.black87,
-          ),
+        primarySwatch: Colors.blue,
+        useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFFFFD700),
+          foregroundColor:
+              Colors.black, // Texte en noir pour meilleur contraste
+          centerTitle: true,
+          elevation: 0,
         ),
       ),
-      home: const MainNavigation(),
+      home: const MainScreen(),
+    );
+  }
+}
+
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    const HomeView(),
+    const CharactersView(),
+    const SeasonsView(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people),
+            label: 'Personnages',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.tv), label: 'Saisons'),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
     );
   }
 }

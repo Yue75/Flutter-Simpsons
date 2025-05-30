@@ -1,4 +1,5 @@
 class Personnage {
+  final String id;
   final String name;
   final String slug;
   final String image;
@@ -6,9 +7,9 @@ class Personnage {
   final String cheveux;
   final String genre;
   final String occupation;
-  final String episodeId;  // si utile
 
   Personnage({
+    required this.id,
     required this.name,
     required this.slug,
     required this.image,
@@ -16,19 +17,18 @@ class Personnage {
     required this.cheveux,
     required this.genre,
     required this.occupation,
-    required this.episodeId,
   });
 
-  factory Personnage.fromMap(Map<String, dynamic> map) {
+  factory Personnage.fromJson(Map<String, dynamic> json) {
     return Personnage(
-      name: map['name'] ?? '',
-      slug: map['slug'] ?? '',
-      image: map['image'] ?? '',
-      description: map['description'] ?? '',
-      cheveux: map['cheveux'] ?? '',
-      genre: map['genre'] ?? '',
-      occupation: map['occupation'] ?? '',
-      episodeId: map['episodeId'] ?? '',
+      id: json['id'],
+      name: json['name'],
+      slug: json['slug'],
+      image: json['image'],
+      description: json['description'],
+      cheveux: json['cheveux'],
+      genre: json['genre'],
+      occupation: json['occupation'],
     );
   }
 }

@@ -1,6 +1,6 @@
 {
-    "name": "simpson_app",
-    "short_name": "simpson_app",
+    "name": "simpsons",
+    "short_name": "simpsons",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
