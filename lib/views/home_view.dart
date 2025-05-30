@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class HomeView extends StatefulWidget {
@@ -57,7 +58,7 @@ class _HomeViewState extends State<HomeView> {
       final saisonsResponse = await http.get(
         Uri.parse('http://10.0.2.2:3030/saisons'),
       );
-print (saisonsResponse.body);
+
       if (saisonsResponse.statusCode == 200) {
         final List<dynamic> jsonData = json.decode(saisonsResponse.body);
         setState(() {
@@ -227,27 +228,28 @@ print (saisonsResponse.body);
                               child: Column(
                                 children: [
                                   ClipRRect(
-                                    borderRadius: BorderRadius.circular(12.0),
-                                    child:Image(image: AssetImage( 
-                                      saison['image'] ?? '',
-                                       ),height: 100,
-                                      fit: BoxFit.cover,
-                                      loadingBuilder:
-                                          (context, child, loadingProgress) {
-                                        if (loadingProgress == null)
-                                          return child;
-                                        return const SizedBox(
-                                          width: 100,
-                                          height: 100,
-                                          child: Center(
-                                            child: CircularProgressIndicator(
-                                              strokeWidth: 2,
+                                      borderRadius: BorderRadius.circular(12.0),
+                                      child: Image(
+                                        image: AssetImage(
+                                          saison['image'] ?? '',
+                                        ),
+                                        height: 100,
+                                        fit: BoxFit.cover,
+                                        loadingBuilder:
+                                            (context, child, loadingProgress) {
+                                          if (loadingProgress == null)
+                                            return child;
+                                          return const SizedBox(
+                                            width: 100,
+                                            height: 100,
+                                            child: Center(
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 2,
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      },
-                                   ) 
-                                  ),
+                                          );
+                                        },
+                                      )),
                                   const SizedBox(height: 8),
                                   Text(
                                     saison['titre'] ?? '',
