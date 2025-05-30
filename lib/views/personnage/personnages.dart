@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 import '../../components/personnage-card.dart';
 import '../../models/personnage.model.dart';
+import './personnage.dart';
 
 class Personnages extends StatefulWidget {
   const Personnages({super.key});
@@ -27,7 +28,7 @@ class _PersonnagesState extends State<Personnages> {
   Future<void> fetchPersonnages() async {
     try {
       final response =
-          await http.get(Uri.parse('http://10.0.2.2:3030/personnages'));
+          await http.get(Uri.parse('http://localhost:3030/personnages'));
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
@@ -55,16 +56,15 @@ class _PersonnagesState extends State<Personnages> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => Personnage(
+        builder: (context) => PersonnageDetailView(
           id: personnage.id,
           name: personnage.name,
-          slug: personnage.slug,
-          image: personnage.image,
+          imageUrl: personnage.image,
           description: personnage.description,
           cheveux: personnage.cheveux,
           genre: personnage.genre,
           occupation: personnage.occupation,
-        ) as Widget,
+        ),
       ),
     );
   }
