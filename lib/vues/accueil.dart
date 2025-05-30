@@ -109,28 +109,57 @@ class _AccueilState extends State<Accueil> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Column(
-                      children: protagonistes.map((protagoniste) {
-                        return ListTile(
-                          leading: ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.network(
-                              protagoniste['image'] ?? '',
-                              width: 50,
-                              height: 50,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return const Icon(Icons.broken_image, size: 50);
-                              },
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: protagonistes.map((protagoniste) {
+                          return Container(
+                            width: 100,
+                            margin: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Column(
+                              children: [
+                                ClipOval(
+                                  child: Image.network(
+                                    protagoniste['image'] ?? '',
+                                    width: 80,
+                                    height: 80,
+                                    fit: BoxFit.cover,
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                          if (loadingProgress == null)
+                                            return child;
+                                          return const SizedBox(
+                                            width: 80,
+                                            height: 80,
+                                            child: Center(
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 2,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return const Icon(
+                                        Icons.broken_image,
+                                        size: 80,
+                                      );
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  protagoniste['nom'] ?? '',
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(fontSize: 12),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
                             ),
-                          ),
-                          title: Text(
-                            protagoniste['nom'] ?? 'Nom indisponible',
-                          ),
-                        );
-                      }).toList(),
+                          );
+                        }).toList(),
+                      ),
                     ),
-                    const SizedBox(height: 16),
 
                     // Section Saisons
                     const Text(
