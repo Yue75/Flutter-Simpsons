@@ -1,6 +1,8 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
 import 'episode_page.dart';
 import 'personnage_page.dart';
 
@@ -13,7 +15,7 @@ class Accueil extends StatefulWidget {
 
 class _AccueilState extends State<Accueil> {
   int _selectedIndex = 0;
-  final List<Widget> _pages = const [PersonnagePage(), EpisodePage()];
+  final List<Widget> _pages = [PersonnagePage(), EpisodePage()];
 
   List<String> protagonistes = [
     'Homer Simpson',
@@ -109,10 +111,7 @@ class _AccueilState extends State<Accueil> {
                               height: 50,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
-                                return const Icon(
-                                  Icons.broken_image,
-                                  size: 50,
-                                );
+                                return const Icon(Icons.broken_image, size: 50);
                               },
                             ),
                           ),
@@ -131,12 +130,13 @@ class _AccueilState extends State<Accueil> {
                                       width: 100,
                                       height: 100,
                                       fit: BoxFit.cover,
-                                      errorBuilder: (context, error, stackTrace) {
-                                        return const Icon(
-                                          Icons.broken_image,
-                                          size: 100,
-                                        );
-                                      },
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                            return const Icon(
+                                              Icons.broken_image,
+                                              size: 100,
+                                            );
+                                          },
                                     ),
                                     const SizedBox(height: 16),
                                     Text(
@@ -165,13 +165,19 @@ class _AccueilState extends State<Accueil> {
                   children: [
                     const Text(
                       'Actualités',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     ...actualites
-                        .map((actu) => Text('• $actu',
-                            style: const TextStyle(fontSize: 16)))
+                        .map(
+                          (actu) => Text(
+                            '• $actu',
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                        )
                         .toList(),
                   ],
                 ),
@@ -183,9 +189,7 @@ class _AccueilState extends State<Accueil> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Wiki des Simpsons'),
-      ),
+      appBar: AppBar(title: const Text('Wiki des Simpsons')),
       body: _selectedIndex == 0 ? _buildHomeContent() : _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
@@ -196,18 +200,12 @@ class _AccueilState extends State<Accueil> {
           _selectedIndex = index;
         }),
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Accueil',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Personnages',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.movie),
-            label: 'Épisodes',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.movie), label: 'Épisodes'),
         ],
       ),
     );

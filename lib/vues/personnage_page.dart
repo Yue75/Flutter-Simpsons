@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+
 import '../controllers/personnage_controller.dart';
 import '../models/personnage.dart';
 import '../widgets/personnage_list_item.dart';
 import 'personnage_detail_page.dart';
 
-import 'episode_page.dart'; 
+class PersonnagePage extends StatefulWidget {
+  @override
+  _PersonnagePageState createState() => _PersonnagePageState();
+}
 
 class _PersonnagePageState extends State<PersonnagePage> {
   final personnageController = PersonnageController();
@@ -19,10 +23,7 @@ class _PersonnagePageState extends State<PersonnagePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Personnages"),
-  
-      ),
+      appBar: AppBar(title: Text("Personnages")),
       body: FutureBuilder<List<Personnage>>(
         future: futurePersonnages,
         builder: (context, snapshot) {
