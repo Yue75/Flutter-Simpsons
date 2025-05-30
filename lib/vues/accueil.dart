@@ -161,7 +161,7 @@ class _AccueilState extends State<Accueil> {
                       ),
                     ),
 
-                    // Section Saisons
+                    // Saisons
                     const Text(
                       'Saisons',
                       style: TextStyle(
@@ -187,16 +187,28 @@ class _AccueilState extends State<Accueil> {
                                         borderRadius: BorderRadius.circular(
                                           8.0,
                                         ),
-                                        child: Image.asset(
-                                          'assets/saisons/saison-${saison['numero']}.webp',
-                                          width: 150,
-                                          height: 150,
+                                        child: Image.network(
+                                          saison['image'] ?? '',
+                                          width: 100,
+                                          height: 100,
                                           fit: BoxFit.cover,
-                                          errorBuilder:
-                                              (context, error, stackTrace) {
-                                                return const Icon(
-                                                  Icons.broken_image,
-                                                  size: 100,
+                                          loadingBuilder:
+                                              (
+                                                context,
+                                                child,
+                                                loadingProgress,
+                                              ) {
+                                                if (loadingProgress == null)
+                                                  return child;
+                                                return const SizedBox(
+                                                  width: 100,
+                                                  height: 100,
+                                                  child: Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                          strokeWidth: 2,
+                                                        ),
+                                                  ),
                                                 );
                                               },
                                         ),
@@ -225,16 +237,24 @@ class _AccueilState extends State<Accueil> {
                                 children: [
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(12.0),
-                                    child: Image.asset(
-                                      'assets/saisons/saison-${saison['numero']}.webp',
-                                      width: 120,
-                                      height: 120,
+                                    child: Image.network(
+                                      saison['image'] ?? '',
+                                      width: 100,
+                                      height: 100,
                                       fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                            return const Icon(
-                                              Icons.broken_image,
-                                              size: 120,
+                                      loadingBuilder:
+                                          (context, child, loadingProgress) {
+                                            if (loadingProgress == null)
+                                              return child;
+                                            return const SizedBox(
+                                              width: 100,
+                                              height: 100,
+                                              child: Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                      strokeWidth: 2,
+                                                    ),
+                                              ),
                                             );
                                           },
                                     ),
