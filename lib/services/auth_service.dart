@@ -1,37 +1,41 @@
-import 'dart:convert';
-
+// services/auth_service.dart
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/user.dart';
-
 class AuthService {
-  static const String _userKey = 'user';
   static SharedPreferences? _prefs;
 
-  // Initialiser SharedPreferences
   static Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  // Vérifier si l'utilisateur est connecté
   static bool isLoggedIn() {
-    return _prefs?.getString(_userKey) != null;
+    return _prefs?.getBool('loggedIn') ?? false;
   }
 
-  // Récupérer l'utilisateur connecté
-  static User? getCurrentUser() {
-    final userJson = _prefs?.getString(_userKey);
-    if (userJson == null) return null;
-    return User.fromJson(json.decode(userJson));
+  static bool isAdmin() {
+    return _prefs?.getString('role') == 'admin';
   }
 
-  // Connecter l'utilisateur
-  static Future<void> login(User user) async {
-    await _prefs?.setString(_userKey, json.encode(user.toJson()));
+  static Future<void> login(String username, String password) async {
+    // Pour la démo, on simule deux utilisateurs
+    if (username == 'admin' && password == 'admin') {
+      await _prefs?.setBool('loggedIn', true);
+      await _prefs?.setString('role', 'admin');
+    } else if (username == 'user' && password == 'user') {
+      await _prefs?.setBool('loggedIn', true);
+      await _prefs?.setString('role', 'user');
+    } else {
+      throw Exception('Identifiants invalides');
+    }
   }
 
-  // Déconnecter l'utilisateur
   static Future<void> logout() async {
-    await _prefs?.remove(_userKey);
+    await _prefs?.clear();
+  }
+
+  static Future<void> register(String username, String password) async {
+    // Cette méthode est fictive pour la démo
+    await _prefs?.setBool('loggedIn', true);
+    await _prefs?.setString('role', 'user');
   }
 }
