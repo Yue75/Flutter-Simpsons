@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'services/auth_service.dart';
+import 'views/admin/admin.dart';
 import 'views/auth/login_page.dart';
 import 'views/auth/register_page.dart';
 import 'views/home.dart';
 import 'views/personnage/personnages.dart';
 import 'views/saison/saisons.dart';
-import 'views/admin/admin.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,7 +47,6 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   bool _isLoggedIn = false;
-  bool _isAdmin = false;
 
   @override
   void initState() {
@@ -55,11 +54,13 @@ class _MainScreenState extends State<MainScreen> {
     _refreshAuthStatus();
   }
 
-  void _refreshAuthStatus() {
-    setState(() {
-      _isLoggedIn = AuthService.isLoggedIn();
-      _isAdmin = _isLoggedIn && AuthService.isAdmin();
-    });
+  Future<void> _refreshAuthStatus() async {
+    final isLoggedIn = await AuthService.isLoggedIn();
+    if (mounted) {
+      setState(() {
+        _isLoggedIn = isLoggedIn;
+      });
+    }
   }
 
   final List<Widget> _pages = [
@@ -69,16 +70,18 @@ class _MainScreenState extends State<MainScreen> {
     const SizedBox(),
   ];
 
-  void _onItemTapped(int index) {
+  void _onItemTapped(int index) async {
     if (index == 3) {
       if (_isLoggedIn) {
-        AuthService.logout().then((_) {
-          _refreshAuthStatus();
-        });
+        await AuthService.logout();
+        if (mounted) {
+          setState(() {
+            _isLoggedIn = false;
+          });
+        }
       } else {
-        Navigator.pushNamed(context, '/login').then((_) {
-          _refreshAuthStatus();
-        });
+        await Navigator.pushNamed(context, '/login');
+        _refreshAuthStatus();
       }
     } else {
       setState(() {
@@ -94,29 +97,22 @@ class _MainScreenState extends State<MainScreen> {
           ? AppBar(
               title: const Text(
                 'Accueil',
-                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               ),
               backgroundColor: const Color(0xFFFFD521),
               elevation: 0,
               centerTitle: true,
-              actions: [
-                if (_isLoggedIn && _isAdmin)
-                  IconButton(
-                    icon: const Icon(Icons.admin_panel_settings, color: Colors.black),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/admin');
-                    },
-                    tooltip: 'Administration',
-                  ),
-              ],
             )
           : null,
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
-          const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),
-          const BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Personnages'),
+          const BottomNavigationBarItem(
+              icon: Icon(Icons.home), label: 'Accueil'),
+          const BottomNavigationBarItem(
+              icon: Icon(Icons.people), label: 'Personnages'),
           const BottomNavigationBarItem(icon: Icon(Icons.tv), label: 'Saisons'),
           BottomNavigationBarItem(
             icon: Icon(_isLoggedIn ? Icons.logout : Icons.login),

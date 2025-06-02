@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:simpsons/views/admin/admin.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,7 +13,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   TextEditingController searchController = TextEditingController();
   String searchQuery = '';
-  
+
   List<Map<String, String>> protagonistes = [
     {
       'nom': 'Homer Simpson',
@@ -42,10 +41,10 @@ class _HomeState extends State<Home> {
           'https://upload.wikimedia.org/wikipedia/en/9/9d/Maggie_Simpson.png',
     },
   ];
-  
+
   List<Map<String, dynamic>> saisons = [];
   List<Map<String, dynamic>> saisonsFiltrees = [];
-  
+
   List<String> actualites = [
     'La saison 34 est en cours de diffusion.',
     'Un nouvel épisode spécial est prévu pour Noël.',
@@ -96,7 +95,8 @@ class _HomeState extends State<Home> {
       if (saisonsResponse.statusCode == 200) {
         final List<dynamic> jsonData = json.decode(saisonsResponse.body);
         setState(() {
-          saisons = jsonData.map((item) => item as Map<String, dynamic>).toList();
+          saisons =
+              jsonData.map((item) => item as Map<String, dynamic>).toList();
           _filtrerSaisons();
         });
       } else {
@@ -110,29 +110,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Accueil',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        backgroundColor: const Color(0xFFFFD521), // Jaune Simpson
-        elevation: 0,
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.admin_panel_settings, color: Colors.black),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AdminPage()),
-              );
-            },
-          ),
-        ],
-      ),
       body: saisons.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -160,11 +137,12 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    
+
                     // Section de présentation
                     const Text(
                       'Les Simpsons',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 16),
                     const Text(
@@ -176,7 +154,8 @@ class _HomeState extends State<Home> {
                     // Section des protagonistes
                     const Text(
                       'Protagonistes',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
                     SingleChildScrollView(
@@ -194,18 +173,21 @@ class _HomeState extends State<Home> {
                                     width: 80,
                                     height: 80,
                                     fit: BoxFit.cover,
-                                    loadingBuilder: (context, child, loadingProgress) {
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
                                       if (loadingProgress == null) return child;
                                       return const SizedBox(
                                         width: 80,
                                         height: 80,
                                         child: Center(
-                                          child: CircularProgressIndicator(strokeWidth: 2),
+                                          child: CircularProgressIndicator(
+                                              strokeWidth: 2),
                                         ),
                                       );
                                     },
                                     errorBuilder: (context, error, stackTrace) {
-                                      return const Icon(Icons.broken_image, size: 80);
+                                      return const Icon(Icons.broken_image,
+                                          size: 80);
                                     },
                                   ),
                                 ),
@@ -231,17 +213,19 @@ class _HomeState extends State<Home> {
                       children: [
                         const Text(
                           'Saisons',
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                         if (searchQuery.isNotEmpty)
                           Text(
                             '${saisonsFiltrees.length} résultat(s)',
-                            style: const TextStyle(color: Colors.grey, fontSize: 14),
+                            style: const TextStyle(
+                                color: Colors.grey, fontSize: 14),
                           ),
                       ],
                     ),
                     const SizedBox(height: 8),
-                    
+
                     if (saisonsFiltrees.isEmpty && searchQuery.isNotEmpty)
                       const Padding(
                         padding: EdgeInsets.all(20),
@@ -267,19 +251,25 @@ class _HomeState extends State<Home> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         ClipRRect(
-                                          borderRadius: BorderRadius.circular(8.0),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
                                           child: Image(
-                                            image: AssetImage(saison['image'] ?? ''),
+                                            image: AssetImage(
+                                                saison['image'] ?? ''),
                                             width: 100,
                                             height: 100,
                                             fit: BoxFit.cover,
-                                            loadingBuilder: (context, child, loadingProgress) {
-                                              if (loadingProgress == null) return child;
+                                            loadingBuilder: (context, child,
+                                                loadingProgress) {
+                                              if (loadingProgress == null)
+                                                return child;
                                               return const SizedBox(
                                                 width: 100,
                                                 height: 100,
                                                 child: Center(
-                                                  child: CircularProgressIndicator(strokeWidth: 2),
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                          strokeWidth: 2),
                                                 ),
                                               );
                                             },
@@ -304,22 +294,27 @@ class _HomeState extends State<Home> {
                               },
                               child: Container(
                                 width: 140,
-                                margin: const EdgeInsets.symmetric(horizontal: 8),
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 8),
                                 child: Column(
                                   children: [
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(12.0),
                                       child: Image(
-                                        image: AssetImage(saison['image'] ?? ''),
+                                        image:
+                                            AssetImage(saison['image'] ?? ''),
                                         height: 100,
                                         fit: BoxFit.cover,
-                                        loadingBuilder: (context, child, loadingProgress) {
-                                          if (loadingProgress == null) return child;
+                                        loadingBuilder:
+                                            (context, child, loadingProgress) {
+                                          if (loadingProgress == null)
+                                            return child;
                                           return const SizedBox(
                                             width: 100,
                                             height: 100,
                                             child: Center(
-                                              child: CircularProgressIndicator(strokeWidth: 2),
+                                              child: CircularProgressIndicator(
+                                                  strokeWidth: 2),
                                             ),
                                           );
                                         },
@@ -329,11 +324,13 @@ class _HomeState extends State<Home> {
                                     Text(
                                       saison['titre'] ?? '',
                                       textAlign: TextAlign.center,
-                                      style: const TextStyle(fontWeight: FontWeight.w600),
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w600),
                                     ),
                                     Text(
                                       '${saison['episodes'].length} épisodes',
-                                      style: const TextStyle(color: Colors.grey),
+                                      style:
+                                          const TextStyle(color: Colors.grey),
                                     ),
                                   ],
                                 ),
@@ -347,7 +344,8 @@ class _HomeState extends State<Home> {
                     // Section des actualités
                     const Text(
                       'Actualités',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
                     Column(

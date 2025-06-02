@@ -75,8 +75,4 @@ model Anectode {
     id       String  @id @default(auto()) @map("_id") @db.ObjectId
     anectode String?
     date     String
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 137e612 (FEAT: Ajout du modèle Anectode et des routes associées)

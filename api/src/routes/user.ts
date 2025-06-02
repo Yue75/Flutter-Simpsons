@@ -136,4 +136,40 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        error: "L'email et le mot de passe sont requis",
+      });
+    }
+
+    const user = await prisma.user.findFirst({
+      where: {
+        email,
+        password,
+      },
+      select: {
+        email: true,
+      },
+    });
+
+    if (!user) {
+      return res.status(401).json({
+        error: "Email ou mot de passe incorrect",
+      });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Erreur lors de la connexion:", error);
+    res.status(500).json({
+      error: "Erreur lors de la connexion",
+      details: error instanceof Error ? error.message : "Erreur inconnue",
+    });
+  }
+});
+
 export default router;
