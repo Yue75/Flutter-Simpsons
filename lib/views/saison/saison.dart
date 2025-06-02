@@ -10,6 +10,10 @@ class Saison extends StatelessWidget {
     required this.season,
   });
 
+  bool _isAssetImage(String path) {
+    return !path.startsWith('http');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,27 +25,33 @@ class Saison extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // En-tête avec l'image de la saison
+            // En-tête avec l'image de la saison (asset ou URL)
             Hero(
               tag: 'season-${season.id}',
-              child: Image.network(
-                season.image,
-                height: 200,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    height: 200,
-                    color: Colors.grey[300],
-                    child: const Center(
-                      child: Icon(
-                        Icons.error_outline,
-                        color: Colors.red,
-                        size: 40,
-                      ),
+              child: _isAssetImage(season.image)
+                  ? Image(
+                      image: AssetImage(season.image),
+                      height: 200,
+                      fit: BoxFit.cover,
+                    )
+                  : Image.network(
+                      season.image,
+                      height: 200,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          height: 200,
+                          color: Colors.grey[300],
+                          child: const Center(
+                            child: Icon(
+                              Icons.error_outline,
+                              color: Colors.red,
+                              size: 40,
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
             ),
             // Informations de la saison
             Padding(

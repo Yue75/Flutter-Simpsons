@@ -37,7 +37,7 @@ class _PersonnagesState extends State<Personnages> {
           isLoading = false;
         });
       } else {
-        print('Erreur API: ${response.statusCode} - ${response.body}');
+      
         setState(() {
           error = 'Erreur lors du chargement des personnages';
           isLoading = false;
