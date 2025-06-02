@@ -2,6 +2,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import express, { Express } from "express";
 import actualiteRouter from "./routes/actualite";
+import anectodeRouter from "./routes/anectode";
 import episodeRouterGet from "./routes/episode";
 import personnageRouterGet from "./routes/personnage";
 import saisonsRouterGet from "./routes/saisons";
@@ -20,6 +21,7 @@ app.use("/personnages", personnageRouterGet);
 app.use("/episodes", episodeRouterGet);
 app.use("/actualites", actualiteRouter);
 app.use("/users", userRouter);
+app.use("/anectodes", anectodeRouter);
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);

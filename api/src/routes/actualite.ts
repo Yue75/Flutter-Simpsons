@@ -5,23 +5,8 @@ import { prisma } from "../lib/prisma";
 const router = Router();
 
 router.get("/", async (req, res) => {
-  try {
-    const actualites = await prisma.actualite.findMany({
-      include: {
-        user: {
-          select: {
-            id: true,
-            email: true,
-          },
-        },
-      },
-    });
-    res.json(actualites);
-  } catch (error) {
-    res
-      .status(500)
-      .json({ error: "Erreur lors de la récupération des actualités" });
-  }
+  const actualites = await prisma.actualite.findMany();
+  res.json(actualites);
 });
 
 router.get("/:id", async (req, res) => {
@@ -29,21 +14,13 @@ router.get("/:id", async (req, res) => {
     const { id } = req.params;
     const actualite = await prisma.actualite.findUnique({
       where: { id },
-      include: {
-        user: {
-          select: {
-            id: true,
-            email: true,
-          },
-        },
-      },
     });
 
     if (!actualite) {
       return res.status(404).json({ error: "Actualité non trouvée" });
     }
 
-    res.json(actualite);
+    return res.json(actualite);
   } catch (error) {
     res
       .status(500)
