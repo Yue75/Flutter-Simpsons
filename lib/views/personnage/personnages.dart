@@ -73,7 +73,15 @@ class _PersonnagesState extends State<Personnages> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Personnages'),
+        title: const Text(
+          'Personnages',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: const Color(0xFFFFD521), // Jaune Simpson
+        elevation: 0,
         centerTitle: true,
       ),
       body: isLoading

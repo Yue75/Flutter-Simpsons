@@ -24,8 +24,16 @@ class PersonnageDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(name),
+        title: Text(
+          name,
+          style: const TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: const Color(0xFFFFD521), // Jaune Simpson
         elevation: 0,
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Column(
