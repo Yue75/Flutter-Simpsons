@@ -1,6 +1,7 @@
 import bodyParser from "body-parser";
 import cors from "cors";
 import express, { Express } from "express";
+import actualiteRouter from "./routes/actualite";
 import episodeRouterGet from "./routes/episode";
 import personnageRouterGet from "./routes/personnage";
 import saisonsRouterGet from "./routes/saisons";
@@ -16,10 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/saisons", saisonsRouterGet);
 app.use("/personnages", personnageRouterGet);
 app.use("/episodes", episodeRouterGet);
-
-app.use("/", (req, res) => {
-  res.json({ message: "Les simpsons" });
-});
+app.use("/actualites", actualiteRouter);
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
