@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
         await AuthService.login(user);
 
         if (mounted) {
-          Navigator.pop(context); // Retourner à l'écran précédent
+          Navigator.pop(context); 
         }
       } catch (e) {
         if (mounted) {
