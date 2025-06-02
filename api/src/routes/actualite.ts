@@ -14,6 +14,14 @@ router.get("/:id", async (req, res) => {
     const { id } = req.params;
     const actualite = await prisma.actualite.findUnique({
       where: { id },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+          },
+        },
+      },
     });
 
     if (!actualite) {
@@ -21,6 +29,7 @@ router.get("/:id", async (req, res) => {
     }
 
     return res.json(actualite);
+    res.json(actualite);
   } catch (error) {
     res
       .status(500)
