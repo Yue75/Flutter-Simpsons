@@ -14,14 +14,6 @@ router.get("/:id", async (req, res) => {
     const { id } = req.params;
     const actualite = await prisma.actualite.findUnique({
       where: { id },
-      include: {
-        user: {
-          select: {
-            id: true,
-            email: true,
-          },
-        },
-      },
     });
 
     if (!actualite) {
