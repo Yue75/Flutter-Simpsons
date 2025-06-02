@@ -16,6 +16,7 @@ class _AdminPageState extends State<AdminPage> {
   final TextEditingController _userEmailController = TextEditingController();
   final TextEditingController _userPasswordController = TextEditingController();
   final TextEditingController _actualiteController = TextEditingController();
+  final TextEditingController _anectodeController = TextEditingController();
 
   List<String> saisons = [];
   String? selectedSaison;
@@ -213,6 +214,42 @@ class _AdminPageState extends State<AdminPage> {
     }
   }
 
+  Future<void> _creerAnectode() async {
+    final anectode = _anectodeController.text.trim();
+
+    if (anectode.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("L'anecdote est obligatoire")),
+      );
+      return;
+    }
+
+    try {
+      final response = await http.post(
+        Uri.parse('$backendUrl/anectodes'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'anectode': anectode,
+        }),
+      );
+
+      if (response.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Anecdote créée avec succès")),
+        );
+        _anectodeController.clear();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Erreur: ${response.body}")),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Erreur réseau ou serveur")),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -286,6 +323,19 @@ class _AdminPageState extends State<AdminPage> {
             ElevatedButton(
               onPressed: _creerActualite,
               child: Text('Créer Actualité'),
+            ),
+            Divider(height: 32),
+            Text('Créer une Anecdote',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            TextField(
+              controller: _anectodeController,
+              decoration: InputDecoration(labelText: 'Anecdote'),
+              maxLines: 3,
+            ),
+            SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: _creerAnectode,
+              child: Text('Créer Anecdote'),
             ),
           ],
         ),

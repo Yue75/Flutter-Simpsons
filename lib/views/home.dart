@@ -154,7 +154,6 @@ class _HomeState extends State<Home> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Barre de recherche
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       decoration: BoxDecoration(
@@ -173,8 +172,6 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                     const SizedBox(height: 20),
-
-                    // Section de présentation
                     const Text(
                       'Les Simpsons',
                       style:
@@ -186,8 +183,6 @@ class _HomeState extends State<Home> {
                       style: TextStyle(fontSize: 16),
                     ),
                     const SizedBox(height: 16),
-
-                    // Section des protagonistes
                     const Text(
                       'Protagonistes',
                       style:
@@ -242,8 +237,6 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                     const SizedBox(height: 16),
-
-                    // Section des saisons (avec résultats filtrés)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -261,7 +254,6 @@ class _HomeState extends State<Home> {
                       ],
                     ),
                     const SizedBox(height: 8),
-
                     if (saisonsFiltrees.isEmpty && searchQuery.isNotEmpty)
                       const Padding(
                         padding: EdgeInsets.all(20),
@@ -376,8 +368,6 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                     const SizedBox(height: 16),
-
-                    // Section des anecdotes
                     const Text(
                       'Anecdotes',
                       style:
@@ -409,8 +399,6 @@ class _HomeState extends State<Home> {
                         },
                       ),
                     const SizedBox(height: 16),
-
-                    // Section des actualités
                     const Text(
                       'Actualités',
                       style:

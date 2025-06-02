@@ -1,10 +1,8 @@
-// views/auth/register_page.dart
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-// Couleur jaune caractéristique des Simpsons
 const Color simpsonsYellow = Color(0xFFFFD90F);
 
 class RegisterPage extends StatefulWidget {
@@ -33,12 +31,10 @@ class _RegisterPageState extends State<RegisterPage> {
         );
 
         if (response.statusCode == 201) {
-          // Inscription réussie
           if (mounted) {
             Navigator.pop(context);
           }
         } else {
-          // Gestion des erreurs
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
