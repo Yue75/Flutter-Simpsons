@@ -11,7 +11,6 @@ router.get("/", async (req, res) => {
         user: {
           select: {
             id: true,
-            name: true,
             email: true,
           },
         },
@@ -34,7 +33,6 @@ router.get("/:id", async (req, res) => {
         user: {
           select: {
             id: true,
-            name: true,
             email: true,
           },
         },
@@ -80,7 +78,6 @@ router.post("/", async (req, res) => {
         user: {
           select: {
             id: true,
-            name: true,
             email: true,
           },
         },
@@ -121,7 +118,6 @@ router.put("/:id", async (req, res) => {
         user: {
           select: {
             id: true,
-            name: true,
             email: true,
           },
         },
