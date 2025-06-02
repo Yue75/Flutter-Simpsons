@@ -44,19 +44,13 @@ class _HomeState extends State<Home> {
 
   List<Map<String, dynamic>> saisons = [];
   List<Map<String, dynamic>> saisonsFiltrees = [];
-
-  List<String> actualites = [
-    'La saison 34 est en cours de diffusion.',
-    'Un nouvel épisode spécial est prévu pour Noël.',
-    'Le film des Simpsons a été annoncé pour 2024.',
-    'Un crossover avec Futurama est en préparation.',
-    'Les Simpsons ont été renouvelés pour deux saisons supplémentaires.',
-  ];
+  List<Map<String, dynamic>> actualites = [];
 
   @override
   void initState() {
     super.initState();
     fetchData();
+    fetchActualites();
     searchController.addListener(_onSearchChanged);
   }
 
@@ -104,6 +98,26 @@ class _HomeState extends State<Home> {
       }
     } catch (e) {
       print('Erreur : $e');
+    }
+  }
+
+  Future<void> fetchActualites() async {
+    try {
+      final actualitesResponse = await http.get(
+        Uri.parse('http://localhost:3030/actualites'),
+      );
+
+      if (actualitesResponse.statusCode == 200) {
+        final List<dynamic> jsonData = json.decode(actualitesResponse.body);
+        setState(() {
+          actualites =
+              jsonData.map((item) => item as Map<String, dynamic>).toList();
+        });
+      } else {
+        throw Exception('Erreur lors de la récupération des actualités');
+      }
+    } catch (e) {
+      print('Erreur lors de la récupération des actualités : $e');
     }
   }
 
@@ -348,14 +362,26 @@ class _HomeState extends State<Home> {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
-                    Column(
-                      children: actualites.map((actualite) {
-                        return ListTile(
-                          leading: const Icon(Icons.article),
-                          title: Text(actualite),
-                        );
-                      }).toList(),
-                    ),
+                    if (actualites.isEmpty)
+                      const Center(
+                        child: Text(
+                          'Aucune actualité disponible',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      )
+                    else
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: actualites.length,
+                        itemBuilder: (context, index) {
+                          final actualite = actualites[index];
+                          return ListTile(
+                            leading: const Icon(Icons.article),
+                            title: Text(actualite['message']?.toString() ?? ''),
+                          );
+                        },
+                      ),
                   ],
                 ),
               ),
