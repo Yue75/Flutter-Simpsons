@@ -15,10 +15,12 @@ class _AdminPageState extends State<AdminPage> {
       TextEditingController();
   final TextEditingController _userEmailController = TextEditingController();
   final TextEditingController _userPasswordController = TextEditingController();
+  final TextEditingController _actualiteController = TextEditingController();
 
   List<String> saisons = [];
   String? selectedSaison;
   Map<String, String> saisonIdMap = {};
+  String? userId;
 
   final String backendUrl = 'http://localhost:3030';
 
@@ -26,6 +28,7 @@ class _AdminPageState extends State<AdminPage> {
   void initState() {
     super.initState();
     _chargerSaisons();
+    _getCurrentUser();
   }
 
   Future<void> _chargerSaisons() async {
@@ -48,6 +51,24 @@ class _AdminPageState extends State<AdminPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Erreur réseau lors du chargement des saisons")),
       );
+    }
+  }
+
+  Future<void> _getCurrentUser() async {
+    try {
+      final response = await http.get(
+        Uri.parse('$backendUrl/auth/me'),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        final userData = jsonDecode(response.body);
+        setState(() {
+          userId = userData['id'];
+        });
+      }
+    } catch (e) {
+      print('Erreur lors de la récupération de l\'utilisateur: $e');
     }
   }
 
@@ -155,6 +176,43 @@ class _AdminPageState extends State<AdminPage> {
     }
   }
 
+  Future<void> _creerActualite() async {
+    final message = _actualiteController.text.trim();
+
+    if (message.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Le message est obligatoire")),
+      );
+      return;
+    }
+
+    try {
+      final response = await http.post(
+        Uri.parse('$backendUrl/actualites'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'message': message,
+          'userId': userId,
+        }),
+      );
+
+      if (response.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Actualité créée avec succès")),
+        );
+        _actualiteController.clear();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Erreur: ${response.body}")),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Erreur réseau ou serveur")),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -215,6 +273,19 @@ class _AdminPageState extends State<AdminPage> {
             ElevatedButton(
               onPressed: _creerUtilisateur,
               child: Text('Créer Utilisateur'),
+            ),
+            Divider(height: 32),
+            Text('Créer une Actualité',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            TextField(
+              controller: _actualiteController,
+              decoration: InputDecoration(labelText: 'Message de l\'actualité'),
+              maxLines: 3,
+            ),
+            SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: _creerActualite,
+              child: Text('Créer Actualité'),
             ),
           ],
         ),

@@ -31,16 +31,16 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const { message, userId } = req.body;
+    const { message } = req.body;
 
-    if (!message || !userId) {
+    if (!message) {
       return res.status(400).json({
-        error: "Le message et l'ID de l'utilisateur sont requis",
+        error: "Le message est requis",
       });
     }
 
     const user = await prisma.user.findUnique({
-      where: { id: userId },
+      where: { id: "683de93453f48535d02fa5d5" },
     });
 
     if (!user) {
@@ -50,15 +50,7 @@ router.post("/", async (req, res) => {
     const actualite = await prisma.actualite.create({
       data: {
         message,
-        userId,
-      },
-      include: {
-        user: {
-          select: {
-            id: true,
-            email: true,
-          },
-        },
+        userId: "683de93453f48535d02fa5d5",
       },
     });
 
