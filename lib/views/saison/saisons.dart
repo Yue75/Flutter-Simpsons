@@ -28,7 +28,7 @@ class _SaisonsState extends State<Saisons> {
   Future<void> _fetchSeasons() async {
     try {
       final response =
-          await http.get(Uri.parse('http://10.0.2.2:3030/saisons'));
+          await http.get(Uri.parse('http://10.0.2.2:3030:3030/saisons'));
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
@@ -63,7 +63,15 @@ class _SaisonsState extends State<Saisons> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Saisons'),
+        title: const Text(
+          'Saisons',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: const Color(0xFFFFD521), // Jaune Simpson
+        elevation: 0,
         centerTitle: true,
       ),
       body: _buildBody(),
