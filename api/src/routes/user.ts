@@ -9,7 +9,6 @@ router.get("/", async (req, res) => {
     const users = await prisma.user.findMany({
       select: {
         id: true,
-        name: true,
         email: true,
         actualites: {
           select: {
@@ -34,7 +33,6 @@ router.get("/:id", async (req, res) => {
       where: { id },
       select: {
         id: true,
-        name: true,
         email: true,
         actualites: {
           select: {
@@ -59,22 +57,21 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const { name, email } = req.body;
+    const { email, password } = req.body;
 
-    if (!name || !email) {
+    if (!email) {
       return res.status(400).json({
-        error: "Le nom et l'email sont requis",
+        error: "L'email est requis",
       });
     }
 
     const user = await prisma.user.create({
       data: {
-        name,
         email,
+        password,
       },
       select: {
         id: true,
-        name: true,
         email: true,
       },
     });
@@ -100,18 +97,17 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, email } = req.body;
+    const { email } = req.body;
 
-    if (!name || !email) {
-      return res.status(400).json({ error: "Le nom et l'email sont requis" });
+    if (!email) {
+      return res.status(400).json({ error: "L'email est requis" });
     }
 
     const user = await prisma.user.update({
       where: { id },
-      data: { name, email },
+      data: { email },
       select: {
         id: true,
-        name: true,
         email: true,
       },
     });
