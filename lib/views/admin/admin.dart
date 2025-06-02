@@ -18,8 +18,38 @@ class _AdminPageState extends State<AdminPage> {
 
   List<String> saisons = [];
   String? selectedSaison;
+  Map<String, String> saisonIdMap = {};
 
   final String backendUrl = 'http://localhost:3030';
+
+  @override
+  void initState() {
+    super.initState();
+    _chargerSaisons();
+  }
+
+  Future<void> _chargerSaisons() async {
+    try {
+      final response = await http.get(Uri.parse('$backendUrl/saisons'));
+      if (response.statusCode == 200) {
+        final List<dynamic> saisonsData = jsonDecode(response.body);
+        setState(() {
+          saisons =
+              saisonsData.map((saison) => saison['titre'].toString()).toList();
+          saisonIdMap = Map.fromEntries(saisonsData
+              .map((saison) => MapEntry(saison['titre'], saison['id'])));
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Erreur lors du chargement des saisons")),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Erreur réseau lors du chargement des saisons")),
+      );
+    }
+  }
 
   Future<void> _ajouterSaison() async {
     final saison = _saisonController.text.trim();
@@ -52,13 +82,20 @@ class _AdminPageState extends State<AdminPage> {
 
     if (titre.isEmpty || numero.isEmpty) return;
 
+    final saisonId = saisonIdMap[selectedSaison];
+    if (saisonId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Erreur: ID de saison non trouvé")),
+      );
+      return;
+    }
+
     final response = await http.post(
       Uri.parse('$backendUrl/episodes'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        'titre': titre,
-        'numero': int.parse(numero),
-        'saison': selectedSaison,
+        'title': titre,
+        'saisonId': saisonId,
       }),
     );
 
