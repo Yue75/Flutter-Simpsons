@@ -45,12 +45,14 @@ class _HomeState extends State<Home> {
   List<Map<String, dynamic>> saisons = [];
   List<Map<String, dynamic>> saisonsFiltrees = [];
   List<Map<String, dynamic>> actualites = [];
+  List<Map<String, dynamic>> anecdotes = [];
 
   @override
   void initState() {
     super.initState();
     fetchData();
     fetchActualites();
+    fetchAnecdotes();
     searchController.addListener(_onSearchChanged);
   }
 
@@ -118,6 +120,26 @@ class _HomeState extends State<Home> {
       }
     } catch (e) {
       print('Erreur lors de la récupération des actualités : $e');
+    }
+  }
+
+  Future<void> fetchAnecdotes() async {
+    try {
+      final anecdotesResponse = await http.get(
+        Uri.parse('http://localhost:3030/anectodes'),
+      );
+
+      if (anecdotesResponse.statusCode == 200) {
+        final List<dynamic> jsonData = json.decode(anecdotesResponse.body);
+        setState(() {
+          anecdotes =
+              jsonData.map((item) => item as Map<String, dynamic>).toList();
+        });
+      } else {
+        throw Exception('Erreur lors de la récupération des anecdotes');
+      }
+    } catch (e) {
+      print('Erreur lors de la récupération des anecdotes : $e');
     }
   }
 
@@ -352,6 +374,39 @@ class _HomeState extends State<Home> {
                             );
                           }).toList(),
                         ),
+                      ),
+                    const SizedBox(height: 16),
+
+                    // Section des anecdotes
+                    const Text(
+                      'Anecdotes',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    if (anecdotes.isEmpty)
+                      const Center(
+                        child: Text(
+                          'Aucune anecdote disponible',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      )
+                    else
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: anecdotes.length,
+                        itemBuilder: (context, index) {
+                          final anecdote = anecdotes[index];
+                          return Card(
+                            margin: const EdgeInsets.symmetric(vertical: 4),
+                            child: ListTile(
+                              leading: const Icon(Icons.lightbulb_outline),
+                              title:
+                                  Text(anecdote['anectode']?.toString() ?? ''),
+                            ),
+                          );
+                        },
                       ),
                     const SizedBox(height: 16),
 
