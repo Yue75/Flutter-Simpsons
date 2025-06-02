@@ -185,14 +185,17 @@ class _HomeState extends State<Home> {
                                 context: context,
                                 builder: (context) => AlertDialog(
                                   title: Text(saison['titre']),
+                                   
                                   content: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(8.0),
-                                        child: Image.network(
+                                        child:  Image(
+                                        image: AssetImage(
                                           saison['image'] ?? '',
+                                        ),
                                           width: 100,
                                           height: 100,
                                           fit: BoxFit.cover,
@@ -267,7 +270,7 @@ class _HomeState extends State<Home> {
                                     ),
                                   ),
                                   Text(
-                                    'Saison ${saison['numero']}',
+                                     '${saison['episodes'].length} épisodes',
                                     style: const TextStyle(color: Colors.grey),
                                   ),
                                 ],
