@@ -24,3 +24,22 @@ router.get("/:id", async (req, res) => {
 });
 
 export default router;
+
+router.post("/", async (req, res) => {
+  const { nom } = req.body;
+
+  try {
+    const saison = await prisma.saison.create({
+      data: {
+        titre: nom,
+        numero: parseInt(nom.match(/\d+/)[0]),
+        slug: nom.toLowerCase().replace(/ /g, "-"),
+        image: "assets/saisons/saison-3.webp",
+      },
+    });
+
+    res.status(201).json(saison);
+  } catch (error) {
+    res.status(500).json({ error: "Erreur lors de la création de la saison" });
+  }
+});

@@ -103,6 +103,14 @@ class _MainScreenState extends State<MainScreen> {
               backgroundColor: const Color(0xFFFFD521),
               elevation: 0,
               centerTitle: true,
+              actions: [
+                if (_isLoggedIn)
+                  IconButton(
+                    icon: const Icon(Icons.admin_panel_settings,
+                        color: Colors.black),
+                    onPressed: () => Navigator.pushNamed(context, '/admin'),
+                  ),
+              ],
             )
           : null,
       body: _pages[_selectedIndex],

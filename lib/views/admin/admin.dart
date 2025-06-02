@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,21 +11,22 @@ class AdminPage extends StatefulWidget {
 class _AdminPageState extends State<AdminPage> {
   final TextEditingController _saisonController = TextEditingController();
   final TextEditingController _episodeTitreController = TextEditingController();
-  final TextEditingController _episodeNumeroController = TextEditingController();
+  final TextEditingController _episodeNumeroController =
+      TextEditingController();
   final TextEditingController _userEmailController = TextEditingController();
   final TextEditingController _userPasswordController = TextEditingController();
 
   List<String> saisons = [];
   String? selectedSaison;
 
-  final String backendUrl = 'http://<TON_BACKEND_URL>'; // ← Remplace par ton URL backend
+  final String backendUrl = 'http://localhost:3030';
 
   Future<void> _ajouterSaison() async {
     final saison = _saisonController.text.trim();
     if (saison.isEmpty) return;
 
     final response = await http.post(
-      Uri.parse('$backendUrl/api/saisons'),
+      Uri.parse('$backendUrl/saisons'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'nom': saison}),
     );
@@ -34,9 +36,11 @@ class _AdminPageState extends State<AdminPage> {
         saisons.add(saison);
         _saisonController.clear();
       });
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Saison '$saison' ajoutée.")));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Saison '$saison' ajoutée.")));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Erreur: ${response.body}")));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Erreur: ${response.body}")));
     }
   }
 
@@ -49,7 +53,7 @@ class _AdminPageState extends State<AdminPage> {
     if (titre.isEmpty || numero.isEmpty) return;
 
     final response = await http.post(
-      Uri.parse('$backendUrl/api/episodes'),
+      Uri.parse('$backendUrl/episodes'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'titre': titre,
@@ -84,7 +88,7 @@ class _AdminPageState extends State<AdminPage> {
 
     try {
       final response = await http.post(
-        Uri.parse('$backendUrl/api/users'),
+        Uri.parse('$backendUrl/users'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'email': email,
@@ -122,7 +126,8 @@ class _AdminPageState extends State<AdminPage> {
         padding: const EdgeInsets.all(16),
         child: ListView(
           children: [
-            Text('Ajouter une Saison', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text('Ajouter une Saison',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             TextField(
               controller: _saisonController,
               decoration: InputDecoration(labelText: 'Nom de la saison'),
@@ -133,8 +138,8 @@ class _AdminPageState extends State<AdminPage> {
               child: Text('Ajouter Saison'),
             ),
             Divider(height: 32),
-
-            Text('Ajouter un Épisode', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text('Ajouter un Épisode',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             DropdownButton<String>(
               hint: Text('Choisir une saison'),
               value: selectedSaison,
@@ -158,8 +163,8 @@ class _AdminPageState extends State<AdminPage> {
               child: Text('Ajouter Épisode'),
             ),
             Divider(height: 32),
-
-            Text('Créer un Utilisateur', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text('Créer un Utilisateur',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             TextField(
               controller: _userEmailController,
               decoration: InputDecoration(labelText: 'Email'),
